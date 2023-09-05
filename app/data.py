@@ -1,21 +1,19 @@
 from os import getenv
-
 from certifi import where
 from dotenv import load_dotenv
 from MonsterLab import Monster
 from pandas import DataFrame
 from pymongo import MongoClient
 
-from random import randrange
-
 
 class Database:
-      
+
     def __init__(self) -> None:
         load_dotenv()
-        self.database = MongoClient(getenv("DB_URL"), tlsCAFile=where())["Database"]
+        self.database = MongoClient(getenv("DB_URL"),
+                                    tlsCAFile=where())["Database"]
         self.collection = self.database.get_collection("Monsters")
-    
+
     def seed(self, amount):
         monsters = [Monster().to_dict() for _ in range(amount)]
         self.collection.insert_many(monsters)
@@ -35,8 +33,7 @@ class Database:
         if df.empty:
             return None
         return df.to_html()
-    
+
+
 if __name__ == '__main__':
     db = Database()
-    #db.seed(1000)
-    #db.reset()

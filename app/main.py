@@ -36,6 +36,7 @@ def data():
         table=db.html_table(),
     )
 
+
 @APP.route("/view", methods=["GET", "POST"])
 def view():
     if SPRINT < 2:
