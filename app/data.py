@@ -10,7 +10,8 @@ from pymongo import MongoClient
 class Database:
 
     def seed(self, amount):
-        pass
+        monsters = [Monster().to_dict() for _ in range(amount)]
+        self.collection.insertMany(monsters)
 
     def reset(self):
         pass
@@ -23,3 +24,9 @@ class Database:
 
     def html_table(self) -> str:
         pass
+
+    def __init__(self) -> None:
+        load_dotenv()
+        self.client = MongoClient(getenv("MONGO_URI"), tlsCAFile=where())
+        self.db = self.client['Cluster0']
+        self.collection = self.db['collection_name']

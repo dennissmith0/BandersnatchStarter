@@ -18,7 +18,7 @@ APP = Flask(__name__)
 def home():
     return render_template(
         "home.html",
-        sprint=f"Sprint {SPRINT}",
+        sprint=f"Sprint {1}",
         monster=Monster().to_dict(),
         password=b64decode(b"VGFuZ2VyaW5lIERyZWFt"),
     )
