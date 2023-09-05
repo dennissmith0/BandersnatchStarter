@@ -14,7 +14,7 @@ class Database:
         self.collection.insertMany(monsters)
 
     def reset(self):
-        pass
+        self.collection.deleteMany({})
 
     def count(self) -> int:
         pass
