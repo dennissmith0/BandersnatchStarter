@@ -17,7 +17,7 @@ class Database:
         self.collection.deleteMany({})
 
     def count(self) -> int:
-        pass
+        return self.collection.countDocuments({})
 
     def dataframe(self) -> DataFrame:
         pass
