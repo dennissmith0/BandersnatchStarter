@@ -6,27 +6,37 @@ from MonsterLab import Monster
 from pandas import DataFrame
 from pymongo import MongoClient
 
+from random import randrange
+
 
 class Database:
-
-    def seed(self, amount):
-        monsters = [Monster().to_dict() for _ in range(amount)]
-        self.collection.insertMany(monsters)
-
-    def reset(self):
-        self.collection.deleteMany({})
-
-    def count(self) -> int:
-        return self.collection.countDocuments({})
-
-    def dataframe(self) -> DataFrame:
-        pass
-
-    def html_table(self) -> str:
-        pass
-
+      
     def __init__(self) -> None:
         load_dotenv()
-        self.client = MongoClient(getenv("MONGO_URI"), tlsCAFile=where())
-        self.db = self.client['Cluster0']
-        self.collection = self.db['collection_name']
+        self.database = MongoClient(getenv("DB_URL"), tlsCAFile=where())["Database"]
+        self.collection = self.database.get_collection("Monsters")
+    
+    def seed(self, amount):
+        monsters = [Monster().to_dict() for _ in range(amount)]
+        self.collection.insert_many(monsters)
+
+    def reset(self):
+        self.collection.delete_many({})
+
+    def count(self) -> int:
+        return self.collection.count_documents({})
+
+    def dataframe(self) -> DataFrame:
+        documents = self.collection.find({})
+        return DataFrame(list(documents))
+
+    def html_table(self) -> str:
+        df = self.dataframe()
+        if df.empty:
+            return None
+        return df.to_html()
+    
+if __name__ == '__main__':
+    db = Database()
+    #db.seed(1000)
+    #db.reset()

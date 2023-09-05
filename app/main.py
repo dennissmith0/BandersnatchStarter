@@ -10,7 +10,7 @@ from app.data import Database
 from app.graph import chart
 from app.machine import Machine
 
-SPRINT = 0
+SPRINT = 1
 APP = Flask(__name__)
 
 
@@ -18,7 +18,7 @@ APP = Flask(__name__)
 def home():
     return render_template(
         "home.html",
-        sprint=f"Sprint {1}",
+        sprint=f"Sprint {SPRINT}",
         monster=Monster().to_dict(),
         password=b64decode(b"VGFuZ2VyaW5lIERyZWFt"),
     )
@@ -29,12 +29,12 @@ def data():
     if SPRINT < 1:
         return render_template("data.html")
     db = Database()
+    db.seed(2048)
     return render_template(
         "data.html",
         count=db.count(),
         table=db.html_table(),
     )
-
 
 @APP.route("/view", methods=["GET", "POST"])
 def view():
