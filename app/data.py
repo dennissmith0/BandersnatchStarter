@@ -25,8 +25,7 @@ class Database:
         return self.collection.count_documents({})
 
     def dataframe(self) -> DataFrame:
-        documents = self.collection.find({})
-        return DataFrame(list(documents))
+        return DataFrame(self.collection.find({}, {"_id": False}))
 
     def html_table(self) -> str:
         df = self.dataframe()
@@ -37,3 +36,4 @@ class Database:
 
 if __name__ == '__main__':
     db = Database()
+    db.reset()

@@ -10,7 +10,7 @@ from app.data import Database
 from app.graph import chart
 from app.machine import Machine
 
-SPRINT = 1
+SPRINT = 2
 APP = Flask(__name__)
 
 
@@ -33,6 +33,7 @@ def data():
     return render_template(
         "data.html",
         count=db.count(),
+        #reset=db.reset(),
         table=db.html_table(),
     )
 
